@@ -1,6 +1,6 @@
 //
 //  MainTabCoordinatorView.swift
-//  BarBeeQ
+//  Scratch
 //
 //  Created by Roman Podymov on 12/06/2025.
 //  Copyright © 2025 Scratch. All rights reserved.

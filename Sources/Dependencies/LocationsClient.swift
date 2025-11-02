@@ -1,6 +1,6 @@
 //
 //  LocationsClient.swift
-//  BarBeeQ
+//  Scratch
 //
 //  Created by Roman Podymov on 26/06/2025.
 //  Copyright © 2025 Scratch. All rights reserved.
