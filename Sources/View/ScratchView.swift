@@ -13,6 +13,6 @@ struct ScratchView: View {
     var store: StoreOf<ScratchReducer>
 
     var body: some View {
-        ProgressView()
+        Text("Scratch")
     }
 }

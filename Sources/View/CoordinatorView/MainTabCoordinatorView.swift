@@ -16,11 +16,11 @@ struct MainTabCoordinatorView: View {
     var body: some View {
         TabView(selection: $store.selectedTab.sending(\.tabSelected)) {
             ScratchView(store: store.scope(state: \.scratch, action: \.scratch))
-                .tabItem { Text("tab.map.title") }
+                .tabItem { Text("tab.scratch.title") }
                 .tag(MainTabCoordinator.Tab.scratch)
 
             ActivateView(store: store.scope(state: \.activate, action: \.activate))
-                .tabItem { Text("tab.list.title") }
+                .tabItem { Text("tab.activate.title") }
                 .tag(MainTabCoordinator.Tab.activate)
         }
     }

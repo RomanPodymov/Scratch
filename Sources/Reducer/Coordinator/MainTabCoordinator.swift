@@ -35,15 +35,12 @@ struct MainTabCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        /* Scope(state: \.map, action: \.map) {
-             MapCoordinator()
-         }
-         Scope(state: \.list, action: \.list) {
-             LocationsListCoordinator()
-         }
-         Scope(state: \.user, action: \.user) {
-             UserCoordinator()
-         } */
+        Scope(state: \.scratch, action: \.scratch) {
+            ScratchReducer()
+        }
+        Scope(state: \.activate, action: \.activate) {
+            ActivateReducer()
+        }
         Reduce { state, action in
             switch action {
             case let .tabSelected(tab):

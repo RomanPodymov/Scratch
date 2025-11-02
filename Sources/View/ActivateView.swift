@@ -13,6 +13,6 @@ struct ActivateView: View {
     var store: StoreOf<ActivateReducer>
 
     var body: some View {
-        ProgressView()
+        Text("Activate")
     }
 }
