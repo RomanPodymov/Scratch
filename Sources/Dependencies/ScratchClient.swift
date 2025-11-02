@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 @DependencyClient
 struct ScratchClient {
-    typealias ActivateProvider = @Sendable (String) async throws -> VersionResponse
+    typealias ActivateProvider = @Sendable (String) async throws(ScratchClientError) -> VersionResponse
 
     let activate: ActivateProvider
 }

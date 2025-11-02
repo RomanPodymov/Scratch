@@ -32,13 +32,16 @@ struct VersionResponse: Codable {
 
 enum ScratchClientError: Error {
     case noData
+    case notActivated
 }
 
 extension ScratchClient: DependencyKey {
-    private static let dummy = ScratchClient(activate: { _ in throw ScratchClientError.noData })
+    private static let dummy = ScratchClient(
+        activate: { _ throws(ScratchClientError) in throw ScratchClientError.noData }
+    )
 
     private static let o2online = {
-        let client = ScratchClient(activate: { code in
+        let client = ScratchClient(activate: { code throws(ScratchClientError) in
             guard var components = URLComponents(string: "https://api.o2.sk/version") else {
                 throw ScratchClientError.noData
             }
@@ -47,9 +50,16 @@ extension ScratchClient: DependencyKey {
                 throw ScratchClientError.noData
             }
             let request = URLRequest(url: url)
-            let (data, _) = try await URLSession.shared.data(for: request)
-            let response = try JSONDecoder().decode(VersionResponse.self, from: data)
-            return response
+            do {
+                let (data, _) = try await URLSession.shared.data(for: request)
+                let response = try JSONDecoder().decode(VersionResponse.self, from: data)
+                if let value = Double(response.ios), value > 6 {
+                    throw ScratchClientError.notActivated
+                }
+                return response
+            } catch {
+                throw ScratchClientError.noData
+            }
         })
         return client
     }()
