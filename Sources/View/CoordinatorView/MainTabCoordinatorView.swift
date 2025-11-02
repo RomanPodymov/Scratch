@@ -15,17 +15,13 @@ struct MainTabCoordinatorView: View {
 
     var body: some View {
         TabView(selection: $store.selectedTab.sending(\.tabSelected)) {
-            MapCoordinatorView(store: store.scope(state: \.map, action: \.map))
+            ScratchView(store: store.scope(state: \.scratch, action: \.scratch))
                 .tabItem { Text("tab.map.title") }
-                .tag(MainTabCoordinator.Tab.map)
+                .tag(MainTabCoordinator.Tab.scratch)
 
-            LocationsListCoordinatorView(store: store.scope(state: \.list, action: \.list))
+            ActivateView(store: store.scope(state: \.activate, action: \.activate))
                 .tabItem { Text("tab.list.title") }
-                .tag(MainTabCoordinator.Tab.list)
-
-            UserCoordinatorView(store: store.scope(state: \.user, action: \.user))
-                .tabItem { Text("tab.profile.title") }
-                .tag(MainTabCoordinator.Tab.user)
+                .tag(MainTabCoordinator.Tab.activate)
         }
     }
 }

@@ -1,0 +1,18 @@
+//
+//  ActivateView.swift
+//  BarBeeQ
+//
+//  Created by Roman Podymov on 02/11/2025.
+//  Copyright © 2025 Scratch. All rights reserved.
+//
+
+import ComposableArchitecture
+import SwiftUI
+
+struct ActivateView: View {
+    var store: StoreOf<ActivateReducer>
+
+    var body: some View {
+        ProgressView()
+    }
+}
