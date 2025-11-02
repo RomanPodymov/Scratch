@@ -1,9 +1,9 @@
 //
-//  AddLocationReducer.swift
-//  BarBeeQ
+//  ActivateReducer.swift
+//  Scratch
 //
-//  Created by Roman Podymov on 26/06/2025.
-//  Copyright © 2025 BarBeeQ. All rights reserved.
+//  Created by Roman Podymov on 02/11/2025.
+//  Copyright © 2025 Scratch. All rights reserved.
 //
 
 import ComposableArchitecture
@@ -13,10 +13,10 @@ import PhotosUI
 import SwiftUI
 
 @Reducer
-struct AddLocationReducer {
+struct ActivateReducer {
     @ObservableState
     struct State: Equatable, Hashable {
-        static func == (lhs: AddLocationReducer.State, rhs: AddLocationReducer.State) -> Bool {
+        static func == (lhs: ActivateReducer.State, rhs: ActivateReducer.State) -> Bool {
             lhs.name == rhs.name
         }
 

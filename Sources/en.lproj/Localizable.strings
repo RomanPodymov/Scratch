@@ -1,12 +1,10 @@
 /* 
   Localizable.strings
-  BarBeeQ
+  Scratch
 
   Created by Roman Podymov on 29.06.2025.
   
 */
 
-"tab.map.title" = "Map";
-"tab.list.title" = "List";
-"tab.profile.title" = "Profile";
-"screen.profile.dummyText" = "To be done";
+"tab.scratch.title" = "Scratch";
+"tab.activate.title" = "Activate";
