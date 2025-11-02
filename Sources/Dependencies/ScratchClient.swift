@@ -10,13 +10,13 @@ import ComposableArchitecture
 
 @DependencyClient
 struct ScratchClient {
-    typealias ActivateProvider = @Sendable () -> Void
+    typealias ActivateProvider = @Sendable () async throws -> Void
 
     let activate: ActivateProvider
 }
 
 extension DependencyValues {
-    var locationsClient: ScratchClient {
+    var scratchClient: ScratchClient {
         get { self[ScratchClient.self] }
         set { self[ScratchClient.self] = newValue }
     }

@@ -25,8 +25,11 @@ struct ActivateReducer {
     var body: some ReducerOf<Self> {
         Reduce { _, action in
             switch action {
-            case let .activate:
-                .none
+            case .activate:
+                .run { _ in
+                    @Dependency(\.scratchClient) var scratchClient
+                    try await scratchClient.activate()
+                }
             }
         }
     }
