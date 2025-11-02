@@ -1,0 +1,62 @@
+//
+//  MainTabCoordinator.swift
+//  BarBeeQ
+//
+//  Created by Roman Podymov on 12/06/2025.
+//  Copyright © 2025 BarBeeQ. All rights reserved.
+//
+
+import ComposableArchitecture
+
+@Reducer
+struct MainTabCoordinator {
+    enum Tab: Hashable {
+        case map, list, user
+    }
+
+    enum Action {
+        case map(MapCoordinator.Action)
+        case list(LocationsListCoordinator.Action)
+        case user(UserCoordinator.Action)
+        case tabSelected(Tab)
+    }
+
+    @ObservableState
+    struct State: Equatable {
+        static let initialState = State(
+            map: .initialState,
+            list: .initialState,
+            user: .initialState,
+            selectedTab: .map
+        )
+
+        var map: MapCoordinator.State
+        var list: LocationsListCoordinator.State
+        var user: UserCoordinator.State
+
+        var selectedTab: Tab
+    }
+
+    var body: some ReducerOf<Self> {
+        Scope(state: \.map, action: \.map) {
+            MapCoordinator()
+        }
+        Scope(state: \.list, action: \.list) {
+            LocationsListCoordinator()
+        }
+        Scope(state: \.user, action: \.user) {
+            UserCoordinator()
+        }
+        Reduce { state, action in
+            switch action {
+            case let .tabSelected(tab):
+                state.selectedTab = tab
+            case .user(.router(.routeAction(_, action: .signIn(.custom(.signInSuccess))))):
+                state.selectedTab = .map
+            default:
+                break
+            }
+            return .none
+        }
+    }
+}
