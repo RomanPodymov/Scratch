@@ -3,7 +3,7 @@
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 07/07/2025.
-//  Copyright © 2025 BarBeeQ. All rights reserved.
+//  Copyright © 2025 Scratch. All rights reserved.
 //
 
 import ComposableArchitecture
@@ -71,19 +71,19 @@ struct UserCoordinator {
                  .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))),
                  .router(.routeAction(_, action: .signOut(.custom(.deleteAccountSuccess)))):
                 state.routes = [
-                    .root(.signIn(.initialState), embedInNavigationView: true)
+                    .root(.signIn(.initialState), embedInNavigationView: true),
                 ]
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(true)))),
                  .router(.routeAction(_, action: .signIn(.custom(.signInSuccess)))):
                 state.routes = [
-                    .root(.signOut(.initialState), embedInNavigationView: true)
+                    .root(.signOut(.initialState), embedInNavigationView: true),
                 ]
                 return .none
             case .router(.routeAction(_, action: .register(.custom(.registerSuccess)))),
                  .router(.routeAction(_, action: .resetPassword(.custom(.resetPasswordSuccess)))):
                 state.routes = [
-                    .root(.signIn(.initialState), embedInNavigationView: true)
+                    .root(.signIn(.initialState), embedInNavigationView: true),
                 ]
                 return .none
             default:

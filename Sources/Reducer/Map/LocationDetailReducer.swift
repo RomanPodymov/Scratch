@@ -3,7 +3,7 @@
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 10/09/2025.
-//  Copyright © 2025 BarBeeQ. All rights reserved.
+//  Copyright © 2025 Scratch. All rights reserved.
 //
 
 import ComposableArchitecture

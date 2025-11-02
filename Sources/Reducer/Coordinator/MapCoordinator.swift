@@ -3,7 +3,7 @@
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 12/06/2025.
-//  Copyright © 2025 BarBeeQ. All rights reserved.
+//  Copyright © 2025 Scratch. All rights reserved.
 //
 
 import ComposableArchitecture
@@ -80,7 +80,7 @@ struct MapCoordinator {
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
                 state.addLocationState.custom.location = location
                 state.routes = State.initialState.routes + [
-                    .push(.newLocation(state.addLocationState))
+                    .push(.newLocation(state.addLocationState)),
                 ]
                 return .none
             case let .router(.routeAction(_, action: .map(.custom(.locationDetailPressed(location))))):

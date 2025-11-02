@@ -3,11 +3,10 @@
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 09/09/2025.
-//  Copyright © 2025 BarBeeQ. All rights reserved.
+//  Copyright © 2025 Scratch. All rights reserved.
 //
 
 import ComposableArchitecture
-import RPMacro
 @preconcurrency import TCACoordinators
 
 @Reducer(state: .equatable, .hashable, .sendable)
@@ -18,12 +17,15 @@ enum LocationsListScreen {
     case locationDetail(LocationDetailReducer)
 }
 
-enum Global {
-    #generateEnum(name: "LocationsListScreenId", ["map", "newLocation", "mapSelection", "locationDetail"])
+enum LocationsListScreenId: String {
+    case map
+    case newLocation
+    case mapSelection
+    case locationDetail
 }
 
 extension LocationsListScreen.State: Identifiable {
-    var id: Global.LocationsListScreenId {
+    var id: LocationsListScreenId {
         switch self {
         case .map:
             .map
@@ -73,7 +75,7 @@ struct LocationsListCoordinator {
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
                 state.addLocationState.custom.location = location
                 state.routes = State.initialState.routes + [
-                    .push(.newLocation(state.addLocationState))
+                    .push(.newLocation(state.addLocationState)),
                 ]
                 return .none
             case let .router(.routeAction(_, action: .newLocation(.custom(.nameChanged(name))))):
