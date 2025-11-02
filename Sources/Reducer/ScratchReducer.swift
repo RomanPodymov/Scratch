@@ -16,76 +16,20 @@ import SwiftUI
 struct ScratchReducer {
     @ObservableState
     struct State: Equatable, Hashable {
-        static func == (lhs: ScratchReducer.State, rhs: ScratchReducer.State) -> Bool {
-            lhs.name == rhs.name
-        }
-
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(name)
-        }
-
         static let initialState = State()
 
-        var name = ""
-
-        var location = CLLocationCoordinate2D()
-
-        var showPhotosPicker = false
-        var selectedPhotos: PhotosPickerItem?
-        var photo: Data?
+        var code = UUID()
     }
 
     enum Action {
-        case nameChanged(String)
-        case selectLocation
-        case showPhotosPicker(Bool)
-        case selectedPhotos(PhotosPickerItem?)
-        case photoLoaded(Data?)
-        case add(BarBeeQLocation)
-        case locationAdded
-
-        case addLocationFailed
-        case selectPhotoFailed
+        case scratch
     }
 
-    @Dependency(\.locationsClient) var locationsClient
-    static let imageLimit = 1_048_487
-
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
-            case let .add(location):
-                return .run { send in
-                    do {
-                        try await locationsClient.addLocation(location)
-                        await send(.locationAdded)
-                    } catch {
-                        await send(.addLocationFailed)
-                    }
-                }
-            case let .nameChanged(name):
-                state.name = name
-                return .none
-            case let .showPhotosPicker(value):
-                state.showPhotosPicker = value
-                return .none
-            case let .selectedPhotos(value):
-                return .run { send in
-                    do {
-                        guard let photo = try await value?.loadTransferable(type: Data.self) else {
-                            await send(.selectPhotoFailed)
-                            return
-                        }
-                        await send(.photoLoaded(photo))
-                    } catch {
-                        await send(.selectPhotoFailed)
-                    }
-                }
-            case let .photoLoaded(value):
-                state.photo = value
-                return .none
-            default:
-                return .none
+            case .scratch:
+                .none
             }
         }
     }
