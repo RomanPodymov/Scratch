@@ -13,6 +13,10 @@ struct ActivateView: View {
     var store: StoreOf<ActivateReducer>
 
     var body: some View {
-        Text("Activate")
+        VStack {
+            Button("Activate") {
+                store.send(.activate)
+            }
+        }
     }
 }
