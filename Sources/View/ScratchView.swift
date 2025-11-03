@@ -10,7 +10,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScratchView: View {
-    var store: StoreOf<ScratchReducer>
+    var store: StoreOf<FullScratchReducer>
 
     var body: some View {
         Text("Scratch")
