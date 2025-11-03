@@ -15,7 +15,7 @@ struct ActivateView: View {
     var body: some View {
         VStack {
             Button("Activate") {
-                store.send(.activate)
+                store.send(.activate(UUID().uuidString))
             }
         }
     }
