@@ -32,19 +32,10 @@ struct FullScratchReducer {
         }
         Reduce { _, action in
             switch action {
-            /* case .custom(.register):
-                 .run { send in
-                     await send(.basic(.startLoading))
-                 }
-             case .custom(.registerSuccess):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                 }
-             case .custom(.registerFailed):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                     await send(.basic(.error(true)))
-                 } */
+            case .custom(.scratch):
+                .run { send in
+                    await send(.basic(.startLoading))
+                }
             default:
                 .none
             }

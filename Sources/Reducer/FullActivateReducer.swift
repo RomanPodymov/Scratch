@@ -32,19 +32,19 @@ struct FullActivateReducer {
         }
         Reduce { _, action in
             switch action {
-            /* case .custom(.register):
-                 .run { send in
-                     await send(.basic(.startLoading))
-                 }
-             case .custom(.registerSuccess):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                 }
-             case .custom(.registerFailed):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                     await send(.basic(.error(true)))
-                 } */
+            case .custom(.activate):
+                .run { send in
+                    await send(.basic(.startLoading))
+                }
+            case .custom(.activateSuccess):
+                .run { send in
+                    await send(.basic(.endLoading))
+                }
+            case .custom(.activateError):
+                .run { send in
+                    await send(.basic(.endLoading))
+                    await send(.basic(.error(true)))
+                }
             default:
                 .none
             }

@@ -18,5 +18,9 @@ struct ActivateView: View {
                 store.send(.custom(.activate(UUID().uuidString)))
             }
         }
+        .loadingIndicator(store.basic.isLoading)
+        /* .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
+             Button("OK", role: .cancel) {}
+         } */
     }
 }
