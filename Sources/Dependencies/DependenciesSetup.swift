@@ -8,42 +8,66 @@
 
 import Combine
 import ComposableArchitecture
+import Foundation
 
-actor ThreadSafeArray<T> {
-    private var rawData: [T] = []
+struct VersionResponse: Codable {
+    let ios: String
+    let iosTM: String
+    let iosRA: String
+    let iosRA2: String
+    let android: String
+    let androidTM: String
+    let androidRA: String
 
-    var data: [T] {
-        rawData
-    }
-
-    func set(data: [T]) {
-        rawData = data
+    enum CodingKeys: String, CodingKey {
+        case ios
+        case iosTM
+        case iosRA
+        case iosRA2 = "iosRA_2"
+        case android
+        case androidTM
+        case androidRA
     }
 }
 
-extension LocationsClient: DependencyKey {
-    private static let dummy = {
-        let locationsStorage = ThreadSafeArray<BarBeeQLocation>()
+enum ScratchClientError: Error {
+    case noData
+    case notActivated
+}
 
-        return LocationsClient(
-            setup: {}, locations: {
-                await locationsStorage.data
-            }, addLocation: { location in
-                let locations = await locationsStorage.data
-                await locationsStorage.set(data: locations + [location])
-            }, signIn: { _, _ in
-            }, isSignedIn: {
-                Just<Bool>(true).eraseToAnyPublisher()
-            }, signOut: {}, registerUser: { _, _ in
-            }, resetPassword: { _ in },
-            deleteAccount: {}
-        )
+extension ScratchClient: DependencyKey {
+    private static let dummy = ScratchClient(
+        activate: { _ throws(ScratchClientError) in throw ScratchClientError.noData }
+    )
+
+    private static let o2online = {
+        let client = ScratchClient(activate: { code throws(ScratchClientError) in
+            guard var components = URLComponents(string: "https://api.o2.sk/version") else {
+                throw ScratchClientError.noData
+            }
+            components.queryItems = [.init(name: "code", value: code)]
+            guard let url = components.url else {
+                throw ScratchClientError.noData
+            }
+            let request = URLRequest(url: url)
+            do {
+                let (data, _) = try await URLSession.shared.data(for: request)
+                let response = try JSONDecoder().decode(VersionResponse.self, from: data)
+                if let value = Double(response.ios), value > 6 {
+                    throw ScratchClientError.notActivated
+                }
+                return response
+            } catch {
+                throw ScratchClientError.noData
+            }
+        })
+        return client
     }()
 
-    static let liveValue = dummy
+    static let liveValue = o2online
 }
 
-extension LocationsClient: TestDependencyKey {
+extension ScratchClient: TestDependencyKey {
     static let previewValue = dummy
 
     static let testValue = previewValue
