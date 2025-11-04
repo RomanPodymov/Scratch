@@ -10,13 +10,14 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ActivateView: View {
-    var store: StoreOf<ActivateReducer>
+    var store: StoreOf<FullActivateReducer>
 
     var body: some View {
         VStack {
             Button("Activate") {
-                store.send(.activate(UUID().uuidString))
+                store.send(.custom(.activate(UUID().uuidString)))
             }
         }
+        .loadingIndicator(store.basic.isLoading)
     }
 }

@@ -15,8 +15,8 @@ struct MainTabCoordinator {
     }
 
     enum Action {
-        case scratch(ScratchReducer.Action)
-        case activate(ActivateReducer.Action)
+        case scratch(FullScratchReducer.Action)
+        case activate(FullActivateReducer.Action)
         case tabSelected(Tab)
     }
 
@@ -28,18 +28,18 @@ struct MainTabCoordinator {
             selectedTab: .scratch
         )
 
-        var scratch: ScratchReducer.State
-        var activate: ActivateReducer.State
+        var scratch: FullScratchReducer.State
+        var activate: FullActivateReducer.State
 
         var selectedTab: Tab
     }
 
     var body: some ReducerOf<Self> {
         Scope(state: \.scratch, action: \.scratch) {
-            ScratchReducer()
+            FullScratchReducer()
         }
         Scope(state: \.activate, action: \.activate) {
-            ActivateReducer()
+            FullActivateReducer()
         }
         Reduce { state, action in
             switch action {
