@@ -31,11 +31,11 @@ struct ScratchReducer {
         Reduce { _, action in
             switch action {
             case .scratch:
-                    .none
+                .none
             case .scratchSuccess:
-                    .none
+                .none
             case .scratchFailed:
-                    .none
+                .none
             }
         }
     }
