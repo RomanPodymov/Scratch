@@ -23,19 +23,23 @@ struct ScratchReducer {
 
     enum Action {
         case scratch
-        case scratchSuccess
+        case scratchSuccess(UUID)
         case scratchFailed
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
             case .scratch:
-                .none
-            case .scratchSuccess:
-                .none
+                return .run { send in
+                    try await Task.sleep(for: .seconds(5))
+                    await send(.scratchSuccess(UUID()))
+                }
+            case let .scratchSuccess(code):
+                state.code = code
+                return .none
             case .scratchFailed:
-                .none
+                return .none
             }
         }
     }

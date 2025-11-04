@@ -19,19 +19,19 @@ struct ActivateReducer {
     }
 
     enum Action {
-        case activate(String)
+        case activate
         case activateSuccess
         case activateError
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case let .activate(code):
-                .run { send in
+            case .activate:
+                .run { [code = state.code] send in
                     do {
                         @Dependency(\.scratchClient) var scratchClient
-                        _ = try await scratchClient.activate(code)
+                        _ = try await scratchClient.activate(code.uuidString)
                         await send(.activateSuccess)
                     } catch {
                         await send(.activateError)
