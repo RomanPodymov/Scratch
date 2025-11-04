@@ -19,8 +19,5 @@ struct ActivateView: View {
             }
         }
         .loadingIndicator(store.basic.isLoading)
-        /* .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
-             Button("OK", role: .cancel) {}
-         } */
     }
 }
