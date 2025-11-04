@@ -23,13 +23,19 @@ struct ScratchReducer {
 
     enum Action {
         case scratch
+        case scratchSuccess
+        case scratchFailed
     }
 
     var body: some ReducerOf<Self> {
         Reduce { _, action in
             switch action {
             case .scratch:
-                .none
+                    .none
+            case .scratchSuccess:
+                    .none
+            case .scratchFailed:
+                    .none
             }
         }
     }

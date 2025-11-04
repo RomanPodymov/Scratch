@@ -13,6 +13,11 @@ struct ScratchView: View {
     var store: StoreOf<FullScratchReducer>
 
     var body: some View {
-        Text("Scratch")
+        VStack {
+            Button("Scratch") {
+                store.send(.custom(.scratch))
+            }
+        }
+        .loadingIndicator(store.basic.isLoading)
     }
 }

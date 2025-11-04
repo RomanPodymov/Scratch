@@ -53,8 +53,8 @@ extension ScratchClient: DependencyKey {
             do {
                 let (data, _) = try await URLSession.shared.data(for: request)
                 let response = try JSONDecoder().decode(VersionResponse.self, from: data)
-                if let value = Double(response.ios), value > 6 {
-                    // throw ScratchClientError.notActivated
+                if let value = Double(response.ios), value < 6.1 {
+                    throw ScratchClientError.notActivated
                 }
                 try await Task.sleep(for: .seconds(5))
                 return response
