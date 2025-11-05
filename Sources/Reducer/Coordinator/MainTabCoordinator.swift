@@ -45,10 +45,13 @@ struct MainTabCoordinator {
             switch action {
             case let .tabSelected(tab):
                 state.selectedTab = tab
+                return .cancel(id: CancelID.scratch)
+            case let .scratch(.custom(.scratchSuccess(code))):
+                state.activate.custom.code = code
+                return .none
             default:
-                break
+                return .none
             }
-            return .none
         }
     }
 }

@@ -37,31 +37,42 @@ enum ScratchClientError: Error {
 
 extension ScratchClient: DependencyKey {
     private static let dummy = ScratchClient(
+        scratch: { () throws(ScratchClientError) in throw ScratchClientError.noData },
         activate: { _ throws(ScratchClientError) in throw ScratchClientError.noData }
     )
 
     private static let o2online = {
-        let client = ScratchClient(activate: { code throws(ScratchClientError) in
-            guard var components = URLComponents(string: "https://api.o2.sk/version") else {
-                throw ScratchClientError.noData
-            }
-            components.queryItems = [.init(name: "code", value: code)]
-            guard let url = components.url else {
-                throw ScratchClientError.noData
-            }
-            let request = URLRequest(url: url)
-            do {
-                let (data, _) = try await URLSession.shared.data(for: request)
-                let response = try JSONDecoder().decode(VersionResponse.self, from: data)
-                if let value = Double(response.ios), value < 6.1 {
-                    throw ScratchClientError.notActivated
+        let client = ScratchClient(
+            scratch: { () throws(ScratchClientError) in
+                do {
+                    try await Task.sleep(for: .seconds(5))
+                } catch {
+                    throw ScratchClientError.noData
                 }
-                try await Task.sleep(for: .seconds(5))
-                return response
-            } catch {
-                throw ScratchClientError.noData
+                return UUID()
+            },
+            activate: { code throws(ScratchClientError) in
+                guard var components = URLComponents(string: "https://api.o2.sk/version") else {
+                    throw ScratchClientError.noData
+                }
+                components.queryItems = [.init(name: "code", value: code)]
+                guard let url = components.url else {
+                    throw ScratchClientError.noData
+                }
+                let request = URLRequest(url: url)
+                do {
+                    let (data, _) = try await URLSession.shared.data(for: request)
+                    let response = try JSONDecoder().decode(VersionResponse.self, from: data)
+                    if let value = Double(response.ios), value < 6.1 {
+                        throw ScratchClientError.notActivated
+                    }
+                    try await Task.sleep(for: .seconds(5))
+                    return response
+                } catch {
+                    throw ScratchClientError.noData
+                }
             }
-        })
+        )
         return client
     }()
 

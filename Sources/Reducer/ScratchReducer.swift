@@ -12,6 +12,8 @@ import Photos
 import PhotosUI
 import SwiftUI
 
+enum CancelID { case scratch }
+
 @Reducer
 struct ScratchReducer {
     @ObservableState
@@ -23,19 +25,24 @@ struct ScratchReducer {
 
     enum Action {
         case scratch
-        case scratchSuccess
+        case scratchSuccess(UUID)
         case scratchFailed
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
             case .scratch:
-                .none
-            case .scratchSuccess:
-                .none
+                return .run { send in
+                    @Dependency(\.scratchClient) var scratchClient
+                    let code = try await scratchClient.scratch()
+                    await send(.scratchSuccess(code))
+                }.cancellable(id: CancelID.scratch, cancelInFlight: true)
+            case let .scratchSuccess(code):
+                state.code = code
+                return .none
             case .scratchFailed:
-                .none
+                return .none
             }
         }
     }
