@@ -32,8 +32,9 @@ struct ScratchReducer {
             switch action {
             case .scratch:
                 return .run { send in
-                    try await Task.sleep(for: .seconds(5))
-                    await send(.scratchSuccess(UUID()))
+                    @Dependency(\.scratchClient) var scratchClient
+                    let code = try await scratchClient.scratch()
+                    await send(.scratchSuccess(code))
                 }
             case let .scratchSuccess(code):
                 state.code = code

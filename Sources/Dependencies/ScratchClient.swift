@@ -7,11 +7,14 @@
 //
 
 import ComposableArchitecture
+import Foundation
 
 @DependencyClient
 struct ScratchClient {
+    typealias ScratchProvider = @Sendable () async throws(ScratchClientError) -> UUID
     typealias ActivateProvider = @Sendable (String) async throws(ScratchClientError) -> VersionResponse
 
+    let scratch: ScratchProvider
     let activate: ActivateProvider
 }
 
