@@ -36,6 +36,15 @@ struct FullScratchReducer {
                 .run { send in
                     await send(.basic(.startLoading))
                 }
+            case .custom(.scratchSuccess):
+                .run { send in
+                    await send(.basic(.endLoading))
+                }
+            case .custom(.scratchFailed):
+                .run { send in
+                    await send(.basic(.endLoading))
+                    await send(.basic(.error(true)))
+                }
             default:
                 .none
             }

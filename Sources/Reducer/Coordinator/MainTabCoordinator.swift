@@ -45,6 +45,8 @@ struct MainTabCoordinator {
             switch action {
             case let .tabSelected(tab):
                 state.selectedTab = tab
+            case let .scratch(.custom(.scratchSuccess(code))):
+                state.activate.custom.code = code
             default:
                 break
             }
