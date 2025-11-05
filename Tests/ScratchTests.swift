@@ -13,5 +13,16 @@ import Testing
 @Suite
 struct ScratchTests {
     @Test
-    func test() async throws {}
+    @MainActor
+    func scratchAlwaysFailingForDummy() async throws {
+        // Given
+        let store = Store(initialState: .initialState) {
+            ScratchReducer()
+        }
+        let initialCode = store.code
+        // When
+        store.send(.scratch)
+        // Then
+        #expect(store.state.code == initialCode)
+    }
 }

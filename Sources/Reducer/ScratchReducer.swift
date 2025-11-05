@@ -35,8 +35,12 @@ struct ScratchReducer {
             case .scratch:
                 return .run { send in
                     @Dependency(\.scratchClient) var scratchClient
-                    let code = try await scratchClient.scratch()
-                    await send(.scratchSuccess(code))
+                    do {
+                        let code = try await scratchClient.scratch()
+                        await send(.scratchSuccess(code))
+                    } catch {
+                        await send(.scratchFailed)
+                    }
                 }.cancellable(id: CancelID.scratch, cancelInFlight: true)
             case let .scratchSuccess(code):
                 state.code = code
