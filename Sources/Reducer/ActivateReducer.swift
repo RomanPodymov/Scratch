@@ -16,6 +16,7 @@ struct ActivateReducer {
         static let initialState = State()
 
         var code = UUID()
+        var isActivated = false
     }
 
     enum Action {
@@ -28,7 +29,7 @@ struct ActivateReducer {
         Reduce { state, action in
             switch action {
             case .activate:
-                .run { [code = state.code] send in
+                return .run { [code = state.code] send in
                     do {
                         @Dependency(\.scratchClient) var scratchClient
                         _ = try await scratchClient.activate(code.uuidString)
@@ -38,9 +39,11 @@ struct ActivateReducer {
                     }
                 }
             case .activateSuccess:
-                .none
+                state.isActivated = true
+                return .none
             case .activateError:
-                .none
+                state.isActivated = false
+                return .none
             }
         }
     }

@@ -8,3 +8,9 @@
 
 "tab.scratch.title" = "Scratch";
 "tab.activate.title" = "Activate";
+"button.scratch.title" = "Scratch";
+"button.activate.title" = "Activate";
+"label.not_activated.title" = "Not activated";
+"label.activated.title" = "Activated";
+"alert.generic_error.title" = "Error";
+"alert.generic_error.button" = "OK";

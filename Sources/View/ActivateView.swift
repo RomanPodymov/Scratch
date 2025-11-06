@@ -10,14 +10,22 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ActivateView: View {
-    var store: StoreOf<FullActivateReducer>
+    @Bindable var store: StoreOf<FullActivateReducer>
 
     var body: some View {
         VStack {
-            Button("Activate") {
+            if store.custom.isActivated {
+                Text("label.activated.title")
+            } else {
+                Text("label.not_activated.title")
+            }
+            Button("button.activate.title") {
                 store.send(.custom(.activate))
             }
         }
         .loadingIndicator(store.basic.isLoading)
+        .alert("alert.generic_error.title", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
+            Button("alert.generic_error.button", role: .cancel) {}
+        }
     }
 }

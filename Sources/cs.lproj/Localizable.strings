@@ -8,3 +8,9 @@
 
 "tab.scratch.title" = "Scratch";
 "tab.activate.title" = "Aktivovat";
+"button.scratch.title" = "Poškrábat";
+"button.activate.title" = "Aktivovat";
+"label.not_activated.title" = "Není aktivovaná";
+"label.activated.title" = "Aktivovaná";
+"alert.generic_error.title" = "Chyba";
+"alert.generic_error.button" = "OK";
