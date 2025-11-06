@@ -14,7 +14,7 @@ struct ScratchView: View {
 
     var body: some View {
         VStack {
-            Button("Scratch") {
+            Button("button.scratch.title") {
                 store.send(.custom(.scratch))
             }
         }

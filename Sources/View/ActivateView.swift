@@ -14,7 +14,12 @@ struct ActivateView: View {
 
     var body: some View {
         VStack {
-            Button("Activate") {
+            if store.custom.isActivated {
+                Text("label.activated.title")
+            } else {
+                Text("label.not_activated.title")
+            }
+            Button("button.activate.title") {
                 store.send(.custom(.activate))
             }
         }

@@ -8,3 +8,7 @@
 
 "tab.scratch.title" = "Scratch";
 "tab.activate.title" = "Aktivovat";
+"button.scratch.title" = "Scratch";
+"button.activate.title" = "Aktivovat";
+"label.not_activated.title" = "Není aktivovana";
+"label.activated.title" = "Aktivovana";
