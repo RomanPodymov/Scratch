@@ -10,7 +10,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ActivateView: View {
-    var store: StoreOf<FullActivateReducer>
+    @Bindable var store: StoreOf<FullActivateReducer>
 
     var body: some View {
         VStack {
@@ -24,5 +24,8 @@ struct ActivateView: View {
             }
         }
         .loadingIndicator(store.basic.isLoading)
+        .alert("alert.generic_error.title", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
+            Button("alert.generic_error.button", role: .cancel) {}
+        }
     }
 }
