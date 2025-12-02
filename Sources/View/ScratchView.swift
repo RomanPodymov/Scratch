@@ -10,7 +10,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScratchView: View {
-    var store: StoreOf<FullScratchReducer>
+    @Bindable var store: StoreOf<FullScratchReducer>
 
     var body: some View {
         VStack {
@@ -19,5 +19,15 @@ struct ScratchView: View {
             }
         }
         .loadingIndicator(store.basic.isLoading)
+        .alert(
+            "alert.generic_error.title",
+            isPresented: $store.basic.showingAlert.sending(\.basic.error),
+            actions: {
+                Button("alert.generic_error.button", role: .cancel) {}
+            },
+            message: {
+                Text("alert.generic_error.message_scratch")
+            }
+        )
     }
 }

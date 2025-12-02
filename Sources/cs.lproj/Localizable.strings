@@ -13,4 +13,6 @@
 "label.not_activated.title" = "Není aktivovaná";
 "label.activated.title" = "Aktivovaná";
 "alert.generic_error.title" = "Chyba";
+"alert.generic_error.message_scratch" = "Chyba při škrábání";
+"alert.generic_error.message_activate" = "Chyba při aktivaci";
 "alert.generic_error.button" = "OK";
